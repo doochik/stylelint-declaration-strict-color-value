@@ -4,6 +4,8 @@
   "description": "Specify whitelist or blacklist for color values",
   "main": "index.js",
   "scripts": {
+    "precommit": "npm test",
+    "prepush": "npm test",
     "test": "npm run test:lint && npm run test:unit",
     "test:lint": "eslint .",
     "test:unit": "node test"
@@ -23,6 +25,7 @@
   "homepage": "https://github.com/doochik/stylelint-declaration-strict-color-value#readme",
   "devDependencies": {
     "eslint": "^5.1.0",
+    "husky": "^0.14.3",
     "postcss-values-parser": "^1.5.0",
     "stylelint-test-rule-tape": "^0.2.0"
   }

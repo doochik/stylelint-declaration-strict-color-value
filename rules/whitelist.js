@@ -4,6 +4,7 @@ const stylelint = require('stylelint');
 const valueParser = require('postcss-values-parser');
 
 const namespace = require('../utils/namespace');
+const validatePrimaryOption = require('../utils/validatePrimaryOption');
 
 const ruleName = namespace('whitelist');
 const messages =  stylelint.utils.ruleMessages(ruleName, {
@@ -12,17 +13,24 @@ const messages =  stylelint.utils.ruleMessages(ruleName, {
 
 const rule = (primaryOption) => {
     return (root, result) => {
-        // TODO: check options
-        // const validOptions = stylelint.utils.validateOptions(postcssResult, ruleName, { .. })
-        // if (!validOptions) { return }
-        // ... some logic ...
-        // stylelint.utils.report({ .. })
+        const validOptions = stylelint.utils.validateOptions(
+            result,
+            ruleName,
+            {
+                actual: primaryOption,
+                possible: validatePrimaryOption,
+            }
+        );
+
+        if (!validOptions) {
+            return;
+        }
 
         root.walkDecls(decl => {
             const valueAST = valueParser(decl.value, { loose: true }).parse();
 
-            valueAST.walk(child => {
-                if (child.type === 'word' && child.isColor) {
+            valueAST.walkType('word', child => {
+                if (child.isColor) {
                     if (!primaryOption.includes(child.value)) {
                         stylelint.utils.report({
                             message: messages.unexpected(decl.prop, child.value),
@@ -36,6 +44,8 @@ const rule = (primaryOption) => {
         });
     };
 };
+
+rule.primaryOptionArray = true;
 
 module.exports = rule;
 module.exports.ruleName = ruleName;

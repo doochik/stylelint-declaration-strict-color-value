@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/doochik/stylelint-declaration-strict-color-value.svg?branch=master)](https://travis-ci.org/doochik/stylelint-declaration-strict-color-value)
+
 # stylelint-declaration-strict-color-value
 
 A stylelint plugin that check whitelist or blacklist color values.

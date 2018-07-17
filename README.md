@@ -1,0 +1,1 @@
+# stylelint-declaration-strict-color-value

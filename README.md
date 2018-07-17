@@ -32,9 +32,9 @@ A stylelint plugin that check whitelist or blacklist color values.
 stylelint-declaration-strict-color-value/blacklist: [ '#f00' ]
 
 .foo {
-  color: #f00; // GOOD
-  background-color: #f00; // GOOD
-  border: 1px solid #f00; // GOOD
+  color: #f00; // BAD
+  background-color: #f00; // BAD
+  border: 1px solid #f00; // BAD
   
   border: 1px solid #00f; // GOOD
 }

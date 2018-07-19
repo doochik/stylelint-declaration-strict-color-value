@@ -1,7 +1,7 @@
 'use strict';
 
 const testRule = require('stylelint-test-rule-tape');
-const rule = require('../index').find(rule => rule.ruleName === 'declaration-strict-color-value/whitelist');
+const rule = require('../index').find(rule => rule.ruleName === 'declaration-strict-color-value/blacklist');
 
 // skip non-color declarations
 testRule(rule.rule, {
@@ -20,7 +20,7 @@ testRule(rule.rule, {
 testRule(rule.rule, {
     ruleName: rule.ruleName,
     config: [
-        [ '#f00', '#0f0' ],
+        [ '#00f', '#ccc' ],
     ],
 
     accept: [
@@ -48,7 +48,7 @@ testRule(rule.rule, {
 testRule(rule.rule, {
     ruleName: rule.ruleName,
     config: [
-        [ 'rgb(255, 0, 0)', 'rgba(0, 0, 255, 0.5)' ],
+        [ 'rgb(0, 255, 0)', 'rgba(0, 255, 0, 0.1)' ],
     ],
 
     accept: [
@@ -76,7 +76,7 @@ testRule(rule.rule, {
 testRule(rule.rule, {
     ruleName: rule.ruleName,
     config: [
-        [ '--color-red', '--color-green' ],
+        [ '--color-black', '--color-blue' ],
     ],
 
     accept: [
@@ -96,8 +96,8 @@ testRule(rule.rule, {
             column: 7,
         },
         {
-            code: '.foo{ border-color: 1px solid var(--black) }',
-            message: 'Unexpected color "--black" for property "border-color" (' + rule.ruleName + ')',
+            code: '.foo{ border-color: 1px solid var(--color-black) }',
+            message: 'Unexpected color "--color-black" for property "border-color" (' + rule.ruleName + ')',
             line: 1,
             column: 7,
         },
@@ -114,7 +114,7 @@ testRule(rule.rule, {
 testRule(rule.rule, {
     ruleName: rule.ruleName,
     config: [
-        [ '--color-red', '--color-green' ],
+        [ '--color-black', '--color-blue' ],
         { colorCustomPropertyPattern: '/--color/' },
     ],
 

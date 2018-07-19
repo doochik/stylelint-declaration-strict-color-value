@@ -9,22 +9,28 @@ A stylelint plugin that check whitelist or blacklist color values.
 ```
 // .stylelintrc
 {
-  "plugins": [
-    "stylelint-declaration-strict-color-value"
-  ],
-  "rules": {
-    // ...
-    "stylelint-declaration-strict-color-value/whitelist": [
-      'var(--color-red)',
-      'var(--color-green)',
-      'var(--color-blue)'
+    "plugins": [
+        "stylelint-declaration-strict-color-value"
     ],
-    "stylelint-declaration-strict-color-value/blacklist": [
-      '#f00',
-      '#0f0',
-    ],
-    // ...
-  }
+    "rules": {
+        // ...
+        "declaration-strict-color-value/whitelist": [
+            [
+                "#000",
+                "--color-red",
+                "--color-green",
+                "--color-blue"
+            ],
+            { colorCustomPropertyPattern: '/--color/' },
+        ],
+        "declaration-strict-color-value/blacklist": [
+            [
+                '#f00',
+                '#0f0'
+            ]
+        ],
+        // ...
+    }
 }
 ```
 
@@ -41,3 +47,19 @@ stylelint-declaration-strict-color-value/blacklist: [ '#f00' ]
   border: 1px solid #00f; // GOOD
 }
 ```
+
+## Problem with custom properties
+
+Plugin can't indestand which custom property is color in this case.
+
+```css
+.foo {
+    border: var(--my-px-value) solid var(--color-blue)
+}
+```
+
+As workaround for this problem you should define `colorCustomPropertyPattern` option.
+
+Plugin behaviour:
+* if `colorCustomPropertyPattern` is **NOT defined**: plugin checks custom properties at color declaration only (`background-color`, `border-color`, `color`, etc).
+* if `colorCustomPropertyPattern` is **defined**: plugin checks custom properties at every declaration but check property name by patterns.

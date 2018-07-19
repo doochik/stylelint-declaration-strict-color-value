@@ -62,4 +62,21 @@ As workaround for this problem you should define `colorCustomPropertyPattern` op
 
 Plugin behaviour:
 * if `colorCustomPropertyPattern` is **NOT defined**: plugin checks custom properties at color declaration only (`background-color`, `border-color`, `color`, etc).
+```css
+/* "declaration-strict-color-value/whitelist": [ ["--color-red"] ] */
+.foo {
+    border: var(--my-px-value) solid var(--color-blue) /* this is valid */
+    border-color: var(--color-red) /* this is valid */
+    border-color: var(--color-blue) /* this is invalid */
+}
+```
 * if `colorCustomPropertyPattern` is **defined**: plugin checks custom properties at every declaration but check property name by patterns.
+```css
+/* "declaration-strict-color-value/whitelist": [ ["--color-red"], { "colorCustomPropertyPattern": "/--color/" } ] */
+.foo {
+    border: var(--my-px-value) solid var(--color-blue) /* this is invalid */
+    border: var(--my-px-value) solid var(--color-red) /* this is valid */
+    border-color: var(--color-blue) /* this is invalid */
+    border-color: var(--color-red) /* this is valid */
+}
+```
